@@ -2,6 +2,7 @@ import { getRepository } from "typeorm"
 import { NextFunction, Request, Response } from "express"
 import { Student } from "../entity/student.entity"
 import { CreateStudentInput, UpdateStudentInput } from "../interface/student.interface"
+import { ResourceNotFoundError } from "../utils/errors"
 
 export class StudentController {
   private studentRepository = getRepository(Student)
@@ -27,21 +28,28 @@ export class StudentController {
   async updateStudent(request: Request, response: Response, next: NextFunction) {
     const { body: params } = request
 
-    this.studentRepository.findOne(params.id).then((student) => {
-      const updateStudentInput: UpdateStudentInput = {
-        id: params.id,
-        first_name: params.first_name,
-        last_name: params.last_name,
-        photo_url: params.photo_url,
-      }
-      student.prepareToUpdate(updateStudentInput)
+    const student = await this.studentRepository.findOne(params.id)
+    if (student == undefined) {
+      return new ResourceNotFoundError      
+    }    
 
-      return this.studentRepository.save(student)
-    })
+    const updateStudentInput: UpdateStudentInput = {
+      id: params.id,
+      first_name: params.first_name,
+      last_name: params.last_name,
+      photo_url: params.photo_url,
+    }
+    student.prepareToUpdate(updateStudentInput)
+
+    return this.studentRepository.save(student)
   }
 
   async removeStudent(request: Request, response: Response, next: NextFunction) {
     let studentToRemove = await this.studentRepository.findOne(request.params.id)
-    await this.studentRepository.remove(studentToRemove)
+    if (studentToRemove == undefined) {
+      return new ResourceNotFoundError      
+    }
+        
+    return this.studentRepository.remove(studentToRemove)
   }
 }

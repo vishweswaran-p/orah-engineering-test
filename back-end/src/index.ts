@@ -6,6 +6,11 @@ import * as cors from "cors"
 import { Request, Response } from "express"
 import { Routes } from "./routes"
 import { Student } from "./entity/student.entity"
+import { ResourceNotFoundError } from "./utils/errors";
+import { StatusCodes } from 'http-status-codes';
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 createConnection()
   .then(async (connection) => {
@@ -19,18 +24,24 @@ createConnection()
       ;(app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
         const result = new (route.controller as any)()[route.action](req, res, next)
         if (result instanceof Promise) {
-          result.then((result) => (result !== null && result !== undefined ? res.send(result) : undefined))
+          result.then((result) => {
+            if (result instanceof ResourceNotFoundError) {
+              res.status(StatusCodes.NOT_FOUND).send(result)
+            } else if (result !== null && result !== undefined) {
+              res.status(StatusCodes.OK).send(result)
+            }
+          })
         } else if (result !== null && result !== undefined) {
-          res.json(result)
+          res.status(StatusCodes.OK).json(result)
         }
       })
     })
 
     // start express server
-    app.listen(4001)
+    const port = process.env.APP_PORT || 4001;
+    app.listen(port);
 
     // insert 15 students
-
     await connection.manager.find(Student).then(async (students) => {
       console.log("We have " + students.length + " students")
       if (students.length === 0) {
@@ -142,6 +153,6 @@ createConnection()
       }
     })
 
-    console.log("Express server has started on port 4001. Open http://localhost:4001/student/get-all to see results")
+    console.log(`Express server has started on port ${port}. Open http://localhost:${port}/student/get-all to see results`)
   })
   .catch((error) => console.log(error))
