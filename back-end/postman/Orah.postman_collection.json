@@ -1,0 +1,278 @@
+{
+	"info": {
+		"_postman_id": "b35f5c29-3830-474f-b60a-eef7ff606bb9",
+		"name": "Orah",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3442962"
+	},
+	"item": [
+		{
+			"name": "Student",
+			"item": [
+				{
+					"name": "Get all students",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/student/get-all",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"student",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update student",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":123,\n    \"first_name\":\"Vishnu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/student/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"student",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove student",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/student/5/delete",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"student",
+								"5",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roll",
+			"item": [
+				{
+					"name": "Create roll",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"absent\",\n    \"completed_at\":\"2022-11-30T20:50:02Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/roll/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roll",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create student-roll",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[{    \n    \"roll_id\":2,\n    \"student_id\":2,\n    \"state\":\"absent\"\n}]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/roll/add-student-states",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roll",
+								"add-student-states"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Group",
+			"item": [
+				{
+					"name": "Create group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Group #1\",\n    \"number_of_weeks\":2,\n    \"roll_states\":\"absent\",\n    \"incidents\":3,\n    \"ltmt\":\"<\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/group/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"group",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update group",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":1,\n    \"name\":\"Group #3\",\n    \"number_of_weeks\":4,\n    \"roll_states\":\"present\",\n    \"incidents\":5,\n    \"ltmt\":\">\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/group/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"group",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/group/get-all",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"group",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all students in group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/group/:group_id/student/get-all",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"group",
+								":group_id",
+								"student",
+								"get-all"
+							],
+							"variable": [
+								{
+									"key": "group_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Run group filters",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/group/run-group-filters",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"group",
+								"run-group-filters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/group/5/delete",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"group",
+								"5",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
